@@ -27,7 +27,7 @@ import { MyInterceptor } from './core/interceptors/my.interceptor';
     SharedModule,
     LayoutModule,
     TasksModule,
-    AppRoutingModule,
+    AppRoutingModule
   ],
   providers: [
     // add this line if you don't have access to
@@ -36,7 +36,7 @@ import { MyInterceptor } from './core/interceptors/my.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MyInterceptor,
-      multi: true,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]
