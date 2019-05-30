@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 
 import { TaskModel } from './../../models/task.model';
 import { TaskPromiseService } from './../../services';
+import * as TasksActions from './../../../core/+store/tasks/tasks.actions';
 
 @Component({
   templateUrl: './task-list.component.html',
@@ -34,7 +35,7 @@ export class TaskListComponent implements OnInit {
   }
 
   onCompleteTask(task: TaskModel): void {
-    this.updateTask(task).catch(err => console.log(err));
+    this.store.dispatch(new TasksActions.DoneTask(task));
   }
 
   onEditTask(task: TaskModel): void {
@@ -47,16 +48,5 @@ export class TaskListComponent implements OnInit {
       .deleteTask(task)
       .then(() => (this.tasks = this.taskPromiseService.getTasks()))
       .catch(err => console.log(err));
-  }
-
-  private async updateTask(task: TaskModel) {
-    const updatedTask = await this.taskPromiseService.updateTask({
-      ...task,
-      done: true
-    });
-
-    const tasks: TaskModel[] = await this.tasks;
-    const index = tasks.findIndex(t => t.id === updatedTask.id);
-    tasks[index] = { ...updatedTask };
   }
 }
